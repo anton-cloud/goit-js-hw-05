@@ -1,50 +1,52 @@
 "use strict";
 
 class Car {
-  constructor(obj) {
-    this.maxSpeed = obj.maxSpeed;
-    this.speed = 0;
-    this.isOn = false;
-    this.distance = 0;
-    this.price = obj.price;
+  static getSpecs(car) {
+    console.log(`maxSpeed: ${car._maxSpeed}, speed: ${car._speed}, 
+      isOn: ${car._isOn}, distance: ${car._distance}, price: ${car._price}`);
   }
 
-  static getSpecs(car) {
-    console.log(car);
+  constructor(car) {
+    this._speed = 0;
+    this._price = car.price;
+    this._maxSpeed = car.maxSpeed;
+    this._isOn = false;
+    this._distance = 0;
   }
 
   get price() {
     return this._price;
   }
 
-  set price(car) {
-    this._price = car;
+  set price(price) {
+    this._price = price;
   }
 
   turnOn() {
-    this.isOn = true;
+    this._isOn = true;
   }
 
   turnOff() {
-    this.isOn = false;
-    this.speed = 0;
+    this._isOn = false;
   }
 
   accelerate(value) {
-    if (this.speed + value < this.maxSpeed) {
-      this.speed += value;
+    let newSpeed = this._speed + value;
+    if (newSpeed <= this._maxSpeed) {
+      this._speed = newSpeed;
     }
   }
 
   decelerate(value) {
-    if (this.speed - value > 0) {
-      this.speed = this.speed - value;
+    let newSpeed = this._speed - value;
+    if (newSpeed > 0) {
+      this._speed = newSpeed;
     }
   }
 
   drive(hours) {
-    if (this.isOn) {
-      this.distance += hours * this.speed;
+    if (this._isOn) {
+      this._distance += hours * this._speed;
     }
   }
 }
@@ -63,7 +65,7 @@ mustang.drive(1);
 mustang.turnOff();
 
 Car.getSpecs(mustang);
-// maxSpeed: 200, speed: 30, isOn: false, distance: 130, price: 2000
+// maxSpeed: 200, speed: 0, isOn: false, distance: 120, price: 2000
 
 console.log(mustang.price); // 2000
 mustang.price = 4000;
